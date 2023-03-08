@@ -3,7 +3,7 @@ pipeline {
     environment {
         IMAGE_REPO_NAME="dvwapub"
         //REPLACE XXX WITH YOUR STUDENT NUMBER
-        IMAGE_TAG= "std23"
+        IMAGE_TAG= "std34"
         REPOSITORY_URI = "public.ecr.aws/f9n2h3p5/dvwapub"
         AWS_DEFAULT_REGION = "us-east-1"
     }
@@ -45,13 +45,13 @@ pipeline {
          }
         }
       }
-      /*stage('SAST'){
+      stage('SAST'){
             steps {
                  sh 'env | grep -E "JENKINS_HOME|BUILD_ID|GIT_BRANCH|GIT_COMMIT" > /tmp/env'
                  sh 'docker pull registry.fortidevsec.forticloud.com/fdevsec_sast:latest'
                  sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest'
             }
-        }*/
+        }
       stage('Deploy'){
             steps {
                  sh 'sed -i "s/<TAG>/${IMAGE_TAG}-${BUILD_NUMBER}/" deployment.yml'
@@ -61,12 +61,12 @@ pipeline {
                  sh 'kubectl set image deployments/dvwa 371571523880.dkr.ecr.us-east-2.amazonaws.com/dvwaxperts:${BUILD_NUMBER}'*/
             }
         } 
-       /*stage('DAST'){
+       stage('DAST'){
             steps {
                  sh 'env | grep -E "JENKINS_HOME|BUILD_ID|GIT_BRANCH|GIT_COMMIT" > /tmp/env'
                  sh 'docker pull registry.fortidevsec.forticloud.com/fdevsec_dast:latest'
                  sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_dast:latest'
             }
-        }*/
+        }
     }
 }
